@@ -1,8 +1,9 @@
-"use client";
-import { useSearchParams } from "next/navigation";
-import ProductCard from "./ProductCard";
-import { useEffect, useRef, useState } from "react";
-import { replaceMongoIdInArray } from "@/utils/data-util";
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import ProductCard from './ProductCard';
+import { useEffect, useRef, useState } from 'react';
+import { replaceMongoIdInArray } from '@/utils/data-util';
 
 const productsPerPage = 5;
 
@@ -14,45 +15,52 @@ function ProductList() {
   const searchParams = useSearchParams();
 
   // Retrieve and format filter parameters
-  const category = searchParams.getAll("category") || [];
-  const minPrice = parseFloat(searchParams.get("min")) || 0;
+  const category = searchParams.getAll('category') || [];
+  const minPrice = parseFloat(searchParams.get('min')) || 0;
   const maxPrice =
-    parseFloat(searchParams.get("max")) || Number.MAX_SAFE_INTEGER;
-  const query = searchParams.get("query") || ""; // Get the search query
+    parseFloat(searchParams.get('max')) || Number.MAX_SAFE_INTEGER;
+  const query = searchParams.get('query') || '';
 
   // Construct query string
   const categoryQuery = category
-    .map((cat) => `category=${encodeURIComponent(cat)}`)
-    .join("&");
+    .map(cat => `category=${encodeURIComponent(cat)}`)
+    .join('&');
   const fetchUrl = `/api/products?limit=${productsPerPage}&skip=${
     page * productsPerPage
   }&${categoryQuery}&min=${minPrice}&max=${maxPrice}&query=${encodeURIComponent(
-    query
+    query,
   )}`;
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch(fetchUrl);
-      const data = await response.json();
-      const getProducts = replaceMongoIdInArray(data?.products);
+      try {
+        const response = await fetch(fetchUrl);
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        const getProducts = replaceMongoIdInArray(data?.products);
 
-      if (page === 0) {
-        setProducts(getProducts);
-      } else {
-        setProducts((prevProducts) => [...prevProducts, ...getProducts]);
+        if (page === 0) {
+          setProducts(getProducts);
+        } else {
+          setProducts(prevProducts => [...prevProducts, ...getProducts]);
+        }
+
+        setHasMore(data?.products.length > 0);
+      } catch (error) {
+        console.error(error);
       }
-
-      setHasMore(data?.products.length > 0);
     };
 
     fetchProducts();
   }, [fetchUrl, page]);
 
   useEffect(() => {
-    const handleIntersection = (entries) => {
+    const handleIntersection = entries => {
       const entry = entries[0];
       if (entry.isIntersecting && hasMore) {
-        setPage((prevPage) => prevPage + 1);
+        setPage(prevPage => prevPage + 1);
       }
     };
 
@@ -71,11 +79,11 @@ function ProductList() {
 
   return (
     <>
-      {products.map((product) => (
+      {products.map(product => (
         <ProductCard key={product._id} product={product} />
       ))}
       {hasMore && (
-        <div ref={loaderRef} className="text-primary">
+        <div ref={loaderRef} className='text-primary'>
           Loading products...
         </div>
       )}

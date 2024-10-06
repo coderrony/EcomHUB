@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 import enImg from '../../public/en.png';
@@ -12,24 +11,27 @@ const LanguageSwitcher = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const languages = [
-    {
-      code: 'en',
-      language: 'English',
-    },
-    {
-      code: 'bn',
-      language: 'Bangla',
-    },
-  ];
+  const languages = useMemo(
+    () => [
+      {
+        code: 'en',
+        language: 'English',
+      },
+      {
+        code: 'bn',
+        language: 'Bangla',
+      },
+    ],
+    [],
+  );
 
   const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-  const [showManu, setShowManu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   useEffect(() => {
     const found = languages.find(lang => pathname.includes(lang.code));
     setSelectedLanguage(found ?? languages[0]);
-  }, [pathname]);
+  }, [pathname, languages]);
 
   const handleLanguageChange = lang => {
     let path = pathname;
@@ -42,7 +44,7 @@ const LanguageSwitcher = () => {
       code: lang,
       language: lang === 'en' ? 'English' : 'Bangla',
     });
-    setShowManu(false);
+    setShowMenu(false);
     window.location.replace(path);
   };
 
@@ -51,7 +53,7 @@ const LanguageSwitcher = () => {
       <div className='relative'>
         <button
           className='flex items-center gap-2'
-          onClick={() => setShowManu(!showManu)}>
+          onClick={() => setShowMenu(!showMenu)}>
           <Image
             className='max-w-8'
             src={selectedLanguage.code === 'bn' ? bnImg : enImg}
@@ -61,7 +63,7 @@ const LanguageSwitcher = () => {
           />
           {selectedLanguage.language}
         </button>
-        {showManu && (
+        {showMenu && (
           <div className='absolute right-0 top-full mt-2 w-40 rounded-md bg-white p-2 z-10 shadow-lg'>
             {languages.map(entry => (
               <li

@@ -1,24 +1,27 @@
-import { productModel } from "@/models/product.model";
-import { connectDB } from "@/services/mongo";
-import { NextResponse } from "next/server";
+import { productModel } from '@/models/product.model';
+import { connectDB } from '@/services/mongo';
+import { NextResponse } from 'next/server';
+
+// Add this line to force the route to be dynamic
+export const dynamic = 'force-dynamic';
 
 export async function GET(request) {
   try {
     // Parse the query parameters from the request URL
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get("limit")) || 10;
-    const skip = parseInt(searchParams.get("skip")) || 0;
+    const limit = parseInt(searchParams.get('limit')) || 10;
+    const skip = parseInt(searchParams.get('skip')) || 0;
     const category = searchParams
-      .getAll("category")
-      .map((cat) => decodeURIComponent(cat));
+      .getAll('category')
+      .map(cat => decodeURIComponent(cat));
 
     // Split categories by the '|' separator
-    const splitCategories = category.length > 0 ? category[0].split("|") : [];
+    const splitCategories = category.length > 0 ? category[0].split('|') : [];
 
-    const minPrice = parseFloat(searchParams.get("min")) || 0;
+    const minPrice = parseFloat(searchParams.get('min')) || 0;
     const maxPrice =
-      parseFloat(searchParams.get("max")) || Number.MAX_SAFE_INTEGER;
-    const searchQuery = searchParams.get("query") || "";
+      parseFloat(searchParams.get('max')) || Number.MAX_SAFE_INTEGER;
+    const searchQuery = searchParams.get('query') || '';
 
     // Connect to the database
     await connectDB();
@@ -28,9 +31,9 @@ export async function GET(request) {
 
     if (searchQuery) {
       query.$or = [
-        { productName: { $regex: searchQuery, $options: "i" } }, // case-insensitive
-        { description: { $regex: searchQuery, $options: "i" } },
-        { category: { $regex: searchQuery, $options: "i" } },
+        { productName: { $regex: searchQuery, $options: 'i' } }, // case-insensitive
+        { description: { $regex: searchQuery, $options: 'i' } },
+        { category: { $regex: searchQuery, $options: 'i' } },
       ];
     }
 
@@ -62,10 +65,10 @@ export async function GET(request) {
       totalPages: Math.ceil(totalProducts / limit),
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
+      { error: 'Internal Server Error' },
+      { status: 500 },
     );
   }
 }

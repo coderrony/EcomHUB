@@ -31,23 +31,8 @@ export const metadata = {
     description:
       'Discover the newest products at unbeatable prices on EcomHUB. Shop electronics, fashion, and more with fast shipping and secure payments.',
     url: 'https://www.ecomhub.com',
-    images: [
-      {
-        url: 'https://www.ecomhub.com/og-image.jpg',
-        width: 800,
-        height: 600,
-        alt: 'EcomHUB Banner',
-      },
-    ],
+
     site_name: 'EcomHUB',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@ecomhub',
-    title: 'EcomHUB - Best Online Deals',
-    description:
-      'Shop the latest products and enjoy exclusive discounts on EcomHUB. Find electronics, fashion, and more!',
-    image: 'https://www.ecomhub.com/twitter-image.jpg',
   },
 };
 
