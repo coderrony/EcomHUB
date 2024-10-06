@@ -1,0 +1,58 @@
+{
+  "lang": "en",
+  "home": {
+    "shop_by_category": "SHOP BY CATEGORY",
+    "top_new_arrival": "TOP NEW ARRIVAL",
+    "TRENDING_PRODUCTS": "TRENDING PRODUCTS"
+  },
+  "navHeader": {
+    "Cart": "Cart",
+    "Wishlist": "Wishlist",
+    "Account": "Account"
+  },
+  "navbar": {
+    "Home": "Home",
+    "Shop": "Shop",
+    "About_us": "About us",
+    "Contact_us": "Contact us",
+    "Logout": "Logout",
+    "Register": "Register",
+    "Login": "Login",
+    "All_Categories": "All Categories"
+  },
+  "header": {
+    "header_title": "Best collection for home decoration",
+    "header_desc": "Discover a world of products at your fingertips! Shop the latest trends, top deals, and new arrivals from the comfort of your home. From electronics to fashion, our e-commerce platform offers something for everyone.",
+    "Shop_Now": "Shop Now",
+    "shop_by_category": "SHOP BY CATEGORY"
+  },
+  "new_arrival": "top new arrival",
+  "trending_products": " TRENDING PRODUCTS",
+  "footer": {
+    "social_links": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "github": "GitHub"
+    },
+    "sections": {
+      "solutions": {
+        "title": "Solutions",
+        "links": {
+          "marketing": "Marketing",
+          "analytics": "Analytics",
+          "commerce": "Commerce",
+          "insights": "Insights"
+        }
+      },
+      "support": {
+        "title": "Support",
+        "links": {
+          "pricing": "Pricing",
+          "guides": "Guides",
+          "api_status": "API Status"
+        }
+      }
+    }
+  }
+}
